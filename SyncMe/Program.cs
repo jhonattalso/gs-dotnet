@@ -1,7 +1,15 @@
+using Microsoft.EntityFrameworkCore;
+using SyncMe.Data; // Importante
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// CONFIGURAÇÃO DO ORACLE
+var connectionString = builder.Configuration.GetConnectionString("OracleConnection");
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseOracle(connectionString));
 
 var app = builder.Build();
 
@@ -9,7 +17,6 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
