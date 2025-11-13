@@ -1,54 +1,48 @@
 ﻿@model SyncMe.Models.Content
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Sala de Aula";
+
+    // Lógica simples para converter link normal do YouTube em Link Embed
+    // Ex: de youtube.com/watch?v=123 para youtube.com/embed/123
+    string videoEmbedUrl = "";
+    if (!string.IsNullOrEmpty(Model.MediaUrl) && Model.MediaUrl.Contains("v=")) {
+        var videoId = Model.MediaUrl.Split("v=")[1].Split("&")[0];
+        videoEmbedUrl = $"https://www.youtube.com/embed/{videoId}";
+    }
 }
 
-<h1>Details</h1>
+<div class="container mt-4">
+    <div class="mb-4">
+        <a asp-action="Index" class="btn btn-outline-secondary mb-3">← Voltar para a Academy</a>
 
-<div>
-    <h4>Content</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Summary)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Summary)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.MediaUrl)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MediaUrl)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PublishDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PublishDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Difficulty)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Difficulty)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Category)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Category)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+        <h1 class="display-5">@Model.Title</h1>
+        <div class="d-flex gap-2">
+            <span class="badge bg-info text-dark">@Model.Category</span>
+            <span class="badge bg-secondary">@Model.Difficulty</span>
+            <small class="text-muted align-self-center">Publicado em: @Model.PublishDate.ToString("dd/MM/yyyy")</small>
+        </div>
+    </div>
+
+    @if (!string.IsNullOrEmpty(videoEmbedUrl)) {
+        <div class="ratio ratio-16x9 mb-4 shadow bg-black rounded">
+            <iframe src="@videoEmbedUrl" title="YouTube video player" allowfullscreen></iframe>
+        </div>
+    }
+    else {
+        <div class="alert alert-warning">
+            <strong>Nenhum vídeo disponível.</strong> (Certifique-se de que o link cadastrado é um link válido do YouTube).
+        </div>
+    }
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h4 class="card-title">Resumo da Aula</h4>
+            <p class="card-text lead">@Model.Summary</p>
+        </div>
+    </div>
+
+    <div class="mt-4 text-end">
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Editar Conteúdo</a>
+    </div>
 </div>

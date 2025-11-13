@@ -62,3 +62,38 @@
         </div>
     }
 </div>
+
+<div class="d-flex justify-content-center mt-5">
+    <nav aria-label="Navegação de página">
+        <ul class="pagination">
+            <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
+                <a class="page-link"
+                   asp-action="Index"
+                   asp-route-pageNumber="@(ViewBag.CurrentPage - 1)"
+                   asp-route-searchString="@ViewBag.PageString">
+                    &laquo; Anterior
+                </a>
+            </li>
+
+            @for (int i = 1; i <= ViewBag.TotalPages; i++) {
+                <li class="page-item @(ViewBag.CurrentPage == i ? "active" : "")">
+                    <a class="page-link"
+                       asp-action="Index"
+                       asp-route-pageNumber="@i"
+                       asp-route-searchString="@ViewBag.PageString">
+                        @i
+                    </a>
+                </li>
+            }
+
+            <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
+                <a class="page-link"
+                   asp-action="Index"
+                   asp-route-pageNumber="@(ViewBag.CurrentPage + 1)"
+                   asp-route-searchString="@ViewBag.PageString">
+                    Próximo &raquo;
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>

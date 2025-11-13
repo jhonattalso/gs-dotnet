@@ -11,6 +11,8 @@ var connectionString = builder.Configuration.GetConnectionString("OracleConnecti
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseOracle(connectionString));
 
+builder.Services.AddScoped<SyncMe.Services.ContentService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
