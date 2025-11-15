@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Oracle.EntityFrameworkCore.Metadata;
 using SyncMe.Data;
@@ -11,9 +12,11 @@ using SyncMe.Data;
 namespace SyncMe.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251114213246_MigracaoLimpaGS")]
+    partial class MigracaoLimpaGS
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,7 +42,7 @@ namespace SyncMe.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TB_CATEGORY", (string)null);
+                    b.ToTable("TB_CATEGORY");
 
                     b.HasData(
                         new
@@ -105,7 +108,7 @@ namespace SyncMe.Migrations
 
                     b.HasIndex("TrackId");
 
-                    b.ToTable("TB_CONTENT", (string)null);
+                    b.ToTable("TB_CONTENT");
 
                     b.HasData(
                         new
@@ -153,7 +156,7 @@ namespace SyncMe.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TB_TRACK", (string)null);
+                    b.ToTable("TB_TRACK");
 
                     b.HasData(
                         new

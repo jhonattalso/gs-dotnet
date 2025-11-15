@@ -1,29 +1,40 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SyncMe.Models;
-using SyncMe.Services; // Importante para usar o ContentService
+using SyncMe.Services;
+using SyncMe.ViewModels; // 1. Importar o ViewModel
 
 namespace SyncMe.Controllers {
     public class ContentsController : Controller {
-        // Trocamos o AppDbContext pelo nosso ContentService
         private readonly ContentService _service;
 
         public ContentsController(ContentService service) {
             _service = service;
         }
 
-        // GET: Contents (Com Busca e Paginação)
-        public async Task<IActionResult> Index(string searchString, int? pageNumber) {
-            int pageSize = 3; // Cards por página
+        // GET: Contents (Atualizado com Filtros)
+        public async Task<IActionResult> Index(
+            string searchString,
+            int? categoryId,
+            DifficultyLevel? difficulty,
+            int? pageNumber) {
+            int pageSize = 6; // 6 cards por página
             int pageIndex = pageNumber ?? 1;
 
-            // O Controller pede os dados prontos para o Serviço
-            var result = await _service.GetAllAsync(searchString, pageIndex, pageSize);
+            // 2. Passa os filtros para o Service
+            var result = await _service.GetAllAsync(searchString, categoryId, difficulty, pageIndex, pageSize);
 
-            // Passa dados visuais para a View
-            ViewBag.PageString = searchString;
+            // ViewBags para manter os filtros selecionados na tela
+            ViewBag.SearchString = searchString;
+            ViewBag.CategoryId = categoryId;
+            ViewBag.Difficulty = difficulty;
+
             ViewBag.CurrentPage = result.CurrentPage;
             ViewBag.TotalPages = result.TotalPages;
+
+            // 3. Envia os dropdowns de filtro para a View
+            ViewBag.Categories = new SelectList(await _service.GetCategoriesAsync(), "Id", "Name", categoryId);
 
             return View(result.Items);
         }
@@ -31,50 +42,92 @@ namespace SyncMe.Controllers {
         // GET: Contents/Details/5
         public async Task<IActionResult> Details(int? id) {
             if (id == null) return NotFound();
-
             var content = await _service.GetByIdAsync(id.Value);
-
             if (content == null) return NotFound();
-
             return View(content);
         }
 
+        // --- MUDANÇA IMPORTANTE (ViewModel) ---
         // GET: Contents/Create
-        public IActionResult Create() {
-            return View();
+        public async Task<IActionResult> Create() {
+            // 4. Prepara o ViewModel com os dropdowns
+            var viewModel = new ContentViewModel {
+                Categories = new SelectList(await _service.GetCategoriesAsync(), "Id", "Name"),
+                Tracks = new SelectList(await _service.GetTracksAsync(), "Id", "Title")
+            };
+            return View(viewModel);
         }
 
         // POST: Contents/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Summary,MediaUrl,PublishDate,Difficulty,Category")] Content content) {
+        // 5. Recebe o ViewModel, não a Model
+        public async Task<IActionResult> Create(ContentViewModel viewModel) {
             if (ModelState.IsValid) {
+                // 6. Mapeia do ViewModel para a Model
+                var content = new Content {
+                    Title = viewModel.Title,
+                    Summary = viewModel.Summary,
+                    MediaUrl = viewModel.MediaUrl,
+                    Difficulty = viewModel.Difficulty,
+                    CategoryId = viewModel.CategoryId,
+                    TrackId = viewModel.TrackId,
+                    PublishDate = DateTime.Now
+                };
+
                 await _service.CreateAsync(content);
                 return RedirectToAction(nameof(Index));
             }
-            return View(content);
+
+            // 7. Se falhar, repopula os dropdowns
+            viewModel.Categories = new SelectList(await _service.GetCategoriesAsync(), "Id", "Name", viewModel.CategoryId);
+            viewModel.Tracks = new SelectList(await _service.GetTracksAsync(), "Id", "Title", viewModel.TrackId);
+            return View(viewModel);
         }
 
         // GET: Contents/Edit/5
         public async Task<IActionResult> Edit(int? id) {
             if (id == null) return NotFound();
-
             var content = await _service.GetByIdAsync(id.Value);
-
             if (content == null) return NotFound();
 
-            return View(content);
+            // 8. Mapeia da Model para o ViewModel
+            var viewModel = new ContentViewModel {
+                Id = content.Id,
+                Title = content.Title,
+                Summary = content.Summary,
+                MediaUrl = content.MediaUrl,
+                Difficulty = content.Difficulty,
+                CategoryId = content.CategoryId,
+                TrackId = content.TrackId,
+                // 9. Popula os dropdowns e seleciona os valores corretos
+                Categories = new SelectList(await _service.GetCategoriesAsync(), "Id", "Name", content.CategoryId),
+                Tracks = new SelectList(await _service.GetTracksAsync(), "Id", "Title", content.TrackId)
+            };
+
+            return View(viewModel);
         }
 
         // POST: Contents/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Summary,MediaUrl,PublishDate,Difficulty,Category")] Content content) {
-            if (id != content.Id) return NotFound();
+        public async Task<IActionResult> Edit(int id, ContentViewModel viewModel) {
+            if (id != viewModel.Id) return NotFound();
 
             if (ModelState.IsValid) {
                 try {
-                    await _service.UpdateAsync(content);
+                    // 10. Mapeia do ViewModel de volta para a Model
+                    var contentToUpdate = await _service.GetByIdAsync(id);
+                    if (contentToUpdate == null) return NotFound();
+
+                    contentToUpdate.Title = viewModel.Title;
+                    contentToUpdate.Summary = viewModel.Summary;
+                    contentToUpdate.MediaUrl = viewModel.MediaUrl;
+                    contentToUpdate.Difficulty = viewModel.Difficulty;
+                    contentToUpdate.CategoryId = viewModel.CategoryId;
+                    contentToUpdate.TrackId = viewModel.TrackId;
+
+                    await _service.UpdateAsync(contentToUpdate);
                 }
                 catch (DbUpdateConcurrencyException) {
                     if (await _service.GetByIdAsync(id) == null) return NotFound();
@@ -82,17 +135,18 @@ namespace SyncMe.Controllers {
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(content);
+
+            // 11. Se falhar, repopula os dropdowns
+            viewModel.Categories = new SelectList(await _service.GetCategoriesAsync(), "Id", "Name", viewModel.CategoryId);
+            viewModel.Tracks = new SelectList(await _service.GetTracksAsync(), "Id", "Title", viewModel.TrackId);
+            return View(viewModel);
         }
 
         // GET: Contents/Delete/5
         public async Task<IActionResult> Delete(int? id) {
             if (id == null) return NotFound();
-
             var content = await _service.GetByIdAsync(id.Value);
-
             if (content == null) return NotFound();
-
             return View(content);
         }
 

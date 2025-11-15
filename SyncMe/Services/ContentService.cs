@@ -10,19 +10,36 @@ namespace SyncMe.Services {
             _context = context;
         }
 
-        // Método para buscar com filtros e paginação
-        public async Task<PaginationResult> GetAllAsync(string searchString, int pageIndex, int pageSize) {
-            var query = _context.Contents.AsQueryable();
+        // Atualizado: Agora aceita Filtros de Categoria e Dificuldade
+        public async Task<PaginationResult> GetAllAsync(
+            string searchString,
+            int? categoryId,
+            DifficultyLevel? difficulty,
+            int pageIndex = 1,
+            int pageSize = 10) {
+            // Include: Traz os dados da Categoria junto (JOIN)
+            var query = _context.Contents
+                .Include(c => c.Category)
+                .Include(c => c.Track)
+                .AsQueryable();
 
-            // Filtro
+            // Filtro por Texto (Título)
             if (!string.IsNullOrEmpty(searchString)) {
-                query = query.Where(c => c.Title.Contains(searchString) || c.Category.Contains(searchString));
+                query = query.Where(c => c.Title.Contains(searchString) || c.Summary.Contains(searchString));
             }
 
-            // Ordenação
+            // Filtro por Categoria (Dropdown)
+            if (categoryId.HasValue) {
+                query = query.Where(c => c.CategoryId == categoryId.Value);
+            }
+
+            // Filtro por Dificuldade
+            if (difficulty.HasValue) {
+                query = query.Where(c => c.Difficulty == difficulty.Value);
+            }
+
             query = query.OrderByDescending(c => c.PublishDate);
 
-            // Contagem e Paginação
             int count = await query.CountAsync();
             var items = await query.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
 
@@ -34,13 +51,18 @@ namespace SyncMe.Services {
             };
         }
 
-        // Métodos CRUD simples
+        // CRUD básico...
         public async Task CreateAsync(Content content) {
             _context.Add(content);
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Content?> GetByIdAsync(int id) => await _context.Contents.FindAsync(id);
+        public async Task<Content?> GetByIdAsync(int id) {
+            return await _context.Contents
+                .Include(c => c.Category)
+                .Include(c => c.Track)
+                .FirstOrDefaultAsync(m => m.Id == id);
+        }
 
         public async Task UpdateAsync(Content content) {
             _context.Update(content);
@@ -54,9 +76,11 @@ namespace SyncMe.Services {
                 await _context.SaveChangesAsync();
             }
         }
-    }
 
-    // Classe auxiliar para transportar os dados da paginação
+        // Auxiliares para popular os dropdowns na View
+        public async Task<List<Category>> GetCategoriesAsync() => await _context.Categories.ToListAsync();
+        public async Task<List<Track>> GetTracksAsync() => await _context.Tracks.ToListAsync();
+    }
     public class PaginationResult {
         public List<Content> Items { get; set; } = new();
         public int TotalItems { get; set; }

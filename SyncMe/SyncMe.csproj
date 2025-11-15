@@ -21,8 +21,4 @@
 		<PackageReference Include="Oracle.EntityFrameworkCore" Version="9.23.60" />
 	</ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="ViewModels\" />
-  </ItemGroup>
-
 </Project>

@@ -1,99 +1,69 @@
 ﻿@model IEnumerable<SyncMe.Models.Content>
+@using SyncMe.Models
 
 @{
-    ViewData["Title"] = "Academy";
+    ViewData["Title"] = "BalanceMe Academy";
 }
 
-<div class="text-center mb-5">
-    <h1 class="display-4">BalanceMe Academy</h1>
-    <p class="lead">Desenvolva suas habilidades e encontre seu equilíbrio.</p>
-</div>
+<div class="container mt-4">
+    <div class="row mb-3 align-items-center">
+        <div class="col-md-6">
+            <h2>@ViewData["Title"]</h2>
+            <p>Conteúdos para seu bem-estar e produtividade.</p>
+        </div>
+        <div class="col-md-6 text-md-end">
+            <a asp-action="Create" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> Novo Conteúdo
+            </a>
+        </div>
+    </div>
 
-<div class="row mb-4">
-    <div class="col-md-8">
-        <form asp-controller="Contents" asp-action="Index" method="get" class="d-flex gap-2">
-            <input type="text" name="searchString" class="form-control" placeholder="Buscar por título ou categoria..." />
-            <button type="submit" class="btn btn-primary">Pesquisar</button>
-            <a asp-action="Index" class="btn btn-outline-secondary">Limpar</a>
+    <div class="card card-body mb-4">
+        <form asp-action="Index" method="get">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label">Buscar por Título</label>
+                    <input type="text" class="form-control" name="searchString" value="@ViewBag.SearchString">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Categoria</label>
+                    <select name="categoryId" class="form-select" asp-items="ViewBag.Categories">
+                        <option value="">Todas</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Dificuldade</label>
+                    <select name="difficulty" class="form-select" asp-items="Html.GetEnumSelectList<DifficultyLevel>()">
+                        <option value="">Todas</option>
+                    </select>
+                </div>
+                <div class="col-md-2 d-flex align-items-end">
+                    <button type="submit" class="btn btn-secondary w-100">Filtrar</button>
+                </div>
+            </div>
         </form>
     </div>
-    <div class="col-md-4 text-end">
-        <a asp-action="Create" class="btn btn-success">+ Novo Conteúdo</a>
-    </div>
-</div>
 
-<div class="row row-cols-1 row-cols-md-3 g-4">
-    @foreach (var item in Model) {
-        <div class="col">
-            <div class="card h-100 shadow-sm">
-                <div class="card-header bg-light text-center py-4">
-                    <h1 class="display-6">
-                        @if (item.Category.Contains("Mental")) {
-                            <span>🧘</span>
-                        }
-                        else if (item.Category.Contains("Produtividade")) {
-
-                            <span>⚡</span>
-                        }
-                        else {
-
-                            <span>📚</span>
-                        }
-                    </h1>
-                </div>
-
-                <div class="card-body">
-                    <span class="badge bg-info text-dark mb-2">@item.Category</span>
-                    <span class="badge bg-secondary mb-2">@item.Difficulty</span>
-
-                    <h5 class="card-title">@item.Title</h5>
-                    <p class="card-text text-muted">@item.Summary</p>
-                </div>
-
-                <div class="card-footer bg-white border-top-0 d-flex justify-content-between align-items-center">
-                    <small class="text-muted">@item.PublishDate.ToString("dd/MM/yyyy")</small>
-                    <div class="btn-group">
-                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary">Ver Aula</a>
-                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary">Editar</a>
-                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">Excluir</a>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        @foreach (var item in Model) {
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <img src="@(item.MediaUrl ?? "https://via.placeholder.com/400x200.png?text=Artigo")" class="card-img-top" alt="@item.Title" style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title">@Html.DisplayFor(modelItem => item.Title)</h5>
+                        <p class="card-text text-muted small">@Html.DisplayFor(modelItem => item.Summary)</p>
+                    </div>
+                    <div class="card-footer bg-white border-0 p-3">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="badge bg-info text-dark">@item.Category?.Name</span>
+                            <span class="badge bg-light text-dark">@item.Difficulty</span>
+                        </div>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-primary btn-sm">Ver Detalhes</a>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-secondary btn-sm">Editar</a>
                     </div>
                 </div>
             </div>
-        </div>
-    }
-</div>
+        }
+    </div>
 
-<div class="d-flex justify-content-center mt-5">
-    <nav aria-label="Navegação de página">
-        <ul class="pagination">
-            <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
-                <a class="page-link"
-                   asp-action="Index"
-                   asp-route-pageNumber="@(ViewBag.CurrentPage - 1)"
-                   asp-route-searchString="@ViewBag.PageString">
-                    &laquo; Anterior
-                </a>
-            </li>
-
-            @for (int i = 1; i <= ViewBag.TotalPages; i++) {
-                <li class="page-item @(ViewBag.CurrentPage == i ? "active" : "")">
-                    <a class="page-link"
-                       asp-action="Index"
-                       asp-route-pageNumber="@i"
-                       asp-route-searchString="@ViewBag.PageString">
-                        @i
-                    </a>
-                </li>
-            }
-
-            <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
-                <a class="page-link"
-                   asp-action="Index"
-                   asp-route-pageNumber="@(ViewBag.CurrentPage + 1)"
-                   asp-route-searchString="@ViewBag.PageString">
-                    Próximo &raquo;
-                </a>
-            </li>
-        </ul>
-    </nav>
 </div>
