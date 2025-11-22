@@ -37,9 +37,6 @@
 
                 <section class="mb-5 article-content">
                     @if (!string.IsNullOrEmpty(Model.ArticleBody)) {
-                        // Use DisplayFor para manter quebras de linha se for texto simples,
-                        // ou Html.Raw se você planeja usar um editor rico (HTML) no futuro.
-                        // Por enquanto, vamos assumir texto com quebras de linha:
                         <p class="fs-5 mb-4" style="white-space: pre-wrap;">@Model.ArticleBody</p>
                     }
                     else {

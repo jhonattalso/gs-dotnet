@@ -112,8 +112,8 @@ namespace SyncMe.Controllers {
                 Id = content.Id,
                 Title = content.Title,
                 Summary = content.Summary,
-                ArticleBody = content.ArticleBody, // <--- NOVO
-                CoverImageUrl = content.CoverImageUrl, // <--- NOVO
+                ArticleBody = content.ArticleBody, 
+                CoverImageUrl = content.CoverImageUrl, 
                 MediaUrl = content.MediaUrl,
                 Difficulty = content.Difficulty,
                 CategoryId = content.CategoryId,
@@ -145,8 +145,8 @@ namespace SyncMe.Controllers {
                     // Atualiza os campos
                     contentToUpdate.Title = viewModel.Title;
                     contentToUpdate.Summary = viewModel.Summary;
-                    contentToUpdate.ArticleBody = viewModel.ArticleBody; // <--- NOVO
-                    contentToUpdate.CoverImageUrl = viewModel.CoverImageUrl; // <--- NOVO
+                    contentToUpdate.ArticleBody = viewModel.ArticleBody; 
+                    contentToUpdate.CoverImageUrl = viewModel.CoverImageUrl;
                     contentToUpdate.MediaUrl = viewModel.MediaUrl;
                     contentToUpdate.Difficulty = viewModel.Difficulty;
                     contentToUpdate.CategoryId = viewModel.CategoryId;

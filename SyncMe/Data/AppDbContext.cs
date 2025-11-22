@@ -7,8 +7,8 @@ namespace SyncMe.Data {
         }
 
         public DbSet<Content> Contents { get; set; }
-        public DbSet<Category> Categories { get; set; } // Nova tabela
-        public DbSet<Track> Tracks { get; set; }       // Nova tabela
+        public DbSet<Category> Categories { get; set; } 
+        public DbSet<Track> Tracks { get; set; }       
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             base.OnModelCreating(modelBuilder);

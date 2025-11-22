@@ -146,3 +146,55 @@ body {
 .category-section hr {
     border-top: 1px solid #e9ecef;
 }
+
+/* --- Adições para Login Moderno --- */
+
+/* Remove o contorno padrão azul forte e adiciona uma sombra suave colorida ao focar */
+.form-floating > .form-control:focus {
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+}
+
+/* Efeito de transição suave no botão de login */
+.btn-primary {
+    transition: all 0.3s ease;
+}
+
+    .btn-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+
+/* --- Estilos Extras para o Login Clean --- */
+
+/* Inputs com fundo cinza claro que ficam brancos ao focar */
+.form-control.bg-light {
+    background-color: #f8f9fa !important;
+    transition: all 0.3s ease;
+}
+
+    .form-control.bg-light:focus {
+        background-color: #fff !important;
+        box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.1); /* Anel de foco suave */
+        border: 1px solid #dee2e6 !important; /* Borda sutil aparece no foco */
+    }
+
+/* Botão com efeito de escala sutil */
+.transition-btn {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+    .transition-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(13, 110, 253, 0.25) !important;
+    }
+
+/* Link de voltar com transição de opacidade */
+.hover-opacity-100 {
+    transition: opacity 0.2s;
+}
+
+    .hover-opacity-100:hover {
+        opacity: 1 !important;
+        text-decoration: underline !important;
+    }
