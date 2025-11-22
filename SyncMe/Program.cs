@@ -15,8 +15,9 @@ builder.Services.AddControllersWithViews();
 var connectionString = builder.Configuration.GetConnectionString("OracleConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseOracle(connectionString));
-builder.Services.AddScoped<SyncMe.Services.ContentService>();
 
+builder.Services.AddScoped<SyncMe.Repositories.IContentRepository, SyncMe.Repositories.ContentRepository>(); // <-- NOVO
+builder.Services.AddScoped<SyncMe.Services.ContentService>();
 builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
