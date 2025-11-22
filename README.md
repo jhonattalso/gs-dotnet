@@ -23,8 +23,9 @@ O projeto foi construído seguindo a arquitetura **MVC (Model-View-Controller)**
 * **ORM:** Entity Framework Core (EF Core) para manipulação de dados.
 * **Banco de Dados:** Oracle Database.
 * **Design Patterns:**
-    * **Dependency Injection:** Utilizada para injetar o contexto do banco (`AppDbContext`) e serviços (`ContentService`) nos controladores.
-    * **Service Layer:** Lógica de negócios encapsulada em serviços (`ContentService.cs`) para evitar controladores "gordos".
+    * **Dependency Injection:** Utilizada para injetar dependências (como `ContentService` e `IContentRepository`) através dos construtores, promovendo baixo acoplamento.
+    * **Service Layer:** Camada (`ContentService.cs`) responsável pelas regras de negócios (ex: validação de data de publicação), evitando que os Controladores fiquem sobrecarregados.
+    * **Repository Pattern:** Camada (`IContentRepository`) responsável exclusivamente pelo acesso a dados e consultas ao banco, isolando o Entity Framework do restante da aplicação.
 * **Front-end:** Razor Views com Bootstrap para estilização responsiva e layout consistente.
 * **Validações:** Data Annotations (`[Required]`, `[StringLength]`) nos Models para garantir a integridade dos dados antes da persistência.
 
