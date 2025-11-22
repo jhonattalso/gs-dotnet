@@ -108,7 +108,13 @@ Para adicionar, editar ou remover conteúdos, é necessário estar autenticado c
 * Acesso a um banco de dados **Oracle**.
 * Visual Studio 2022 ou VS Code.
 
-#### 1. Configuração do Banco de Dados (Connection String)
+
+#### 1. Entrando na pasta do projeto
+Antes de executar os comandos, certifique-se de entrar na pasta da aplicação:
+```
+cd SyncMe
+```
+#### 2. Configuração do Banco de Dados (Connection String)
 O projeto espera uma conexão com o Oracle. Você deve configurar a string de conexão.
 Edite o arquivo appsettings.json na raiz do projeto e substitua os valores:
 ```bash
@@ -117,13 +123,13 @@ Edite o arquivo appsettings.json na raiz do projeto e substitua os valores:
 }
 ```
 
-#### 2. Aplicando Migrations
+#### 3. Aplicando Migrations
 Para criar as tabelas no banco de dados, execute o comando abaixo na raiz do projeto (onde está o arquivo .csproj):
 ```
 dotnet ef database update
 ```
 
-#### 3. Executando a Aplicação
+#### 4. Executando a Aplicação
 Após configurar o banco, inicie o servidor apertando F5 ou abrindo o terminal e digitando:
 ```
 dotnet run
