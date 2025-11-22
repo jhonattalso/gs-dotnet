@@ -2,7 +2,9 @@
 
 ## 📋 Visão Geral
 
-O **BalanceMe Academy** é uma plataforma web desenvolvida para enfrentar os desafios do "Futuro do Trabalho", focando na organização e disponibilização de conteúdos educacionais para *upskilling* e *reskilling*. A aplicação permite o gerenciamento de trilhas de aprendizado, conteúdos multimídia e categorização por níveis de dificuldade, servindo como um hub para o desenvolvimento contínuo de competências.
+O projeto **BalanceMe Academy** é o módulo corporativo web de educação e bem-estar da solução "BalanceMe". O aplicativo mobile diagnostica o problema com os dados do usuário (ex: usuário cansado, estressado, ou trabalhando demais). E a plataforma web entra como solução. 
+
+O projeto BalanceMe Academy consiste na implementação de uma plataforma Web corporativa desenvolvida em ASP.NET Core MVC, voltada para a gestão de conteúdo de reskilling e upskilling. É um portal onde o RH da empresa disponibiliza conteúdo para ajudar os colaboradores a desenvolverem as "competências humanas", ou dicas de saúde e bem-estar.   
 
 ### 👥 Integrantes do Grupo
 * **Jhonatta Lima Sandes de Oliveira** - RM: 560277
@@ -17,7 +19,7 @@ O **BalanceMe Academy** é uma plataforma web desenvolvida para enfrentar os des
 
 O projeto foi construído seguindo a arquitetura **MVC (Model-View-Controller)** utilizando **ASP.NET Core**, garantindo a separação de responsabilidades entre a interface do usuário, a lógica de negócios e o acesso a dados.
 
-* **Framework:** .NET 8 / ASP.NET Core MVC.
+* **Framework:** .NET 9 / ASP.NET Core MVC.
 * **ORM:** Entity Framework Core (EF Core) para manipulação de dados.
 * **Banco de Dados:** Oracle Database.
 * **Design Patterns:**
