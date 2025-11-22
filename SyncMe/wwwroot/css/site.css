@@ -198,3 +198,88 @@ body {
         opacity: 1 !important;
         text-decoration: underline !important;
     }
+
+/* --- Filtros e Cards Modernos --- */
+
+/* Inputs do Filtro: cinza claro padrão, branco com anel suave ao focar */
+.form-control.bg-light,
+.form-select.bg-light,
+.input-group-text.bg-light {
+    background-color: #f8f9fa !important;
+    border-color: transparent;
+    transition: all 0.2s ease-in-out;
+}
+
+    .form-control.bg-light:focus,
+    .form-select.bg-light:focus {
+        background-color: #fff !important;
+        border-color: #e9ecef;
+        box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.1);
+    }
+
+/* Ajuste fino para o grupo de input (ícone + campo) focar junto */
+.input-group:focus-within .input-group-text {
+    background-color: #fff !important;
+    color: var(--bs-primary) !important;
+}
+
+/* Efeito hover suave nos cards de conteúdo */
+.hover-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+    .hover-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08) !important;
+    }
+
+/* Pequeno espaçamento de letras para títulos de seção */
+.ls-1 {
+    letter-spacing: 1px;
+}
+
+/* --- Botões Soft para Admin --- */
+
+/* Botão Editar Soft (Azul translúcido) */
+.btn-soft-primary {
+    background-color: rgba(13, 110, 253, 0.1);
+    color: #0d6efd;
+    border: none;
+    transition: all 0.2s ease;
+}
+
+    .btn-soft-primary:hover {
+        background-color: #0d6efd;
+        color: #fff;
+        transform: translateY(-3px);
+        box-shadow: 0 4px 10px rgba(13, 110, 253, 0.3);
+    }
+
+/* Botão Excluir Soft (Vermelho translúcido) */
+.btn-soft-danger {
+    background-color: rgba(220, 53, 69, 0.1);
+    color: #dc3545;
+    border: none;
+    transition: all 0.2s ease;
+}
+
+    .btn-soft-danger:hover {
+        background-color: #dc3545;
+        color: #fff;
+        transform: translateY(-3px);
+        box-shadow: 0 4px 10px rgba(220, 53, 69, 0.3);
+    }
+
+/* Efeito de escala genérico para botões de destaque */
+.hover-scale {
+    transition: transform 0.2s ease;
+}
+
+    .hover-scale:hover {
+        transform: scale(1.05);
+    }
+
+/* Sombra colorida para o botão principal "Novo Conteúdo" */
+.shadow-primary-sm {
+    box-shadow: 0 4px 15px rgba(13, 110, 253, 0.25);
+}

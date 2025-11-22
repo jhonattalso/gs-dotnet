@@ -8,98 +8,129 @@
     ViewData["Title"] = "BalanceMe Academy";
     bool isAdmin = HttpContextAccessor.HttpContext.Session.GetString("IsAdmin") == "true";
 
-    // Agrupa os conteúdos por categoria
     var groupedContents = Model
         .GroupBy(item => item.Category?.Name ?? "Outros")
         .OrderBy(g => g.Key);
 }
 
-<div class="container mt-4">
-    <div class="row mb-3 align-items-center">
-        <div class="col-md-6">
-            <h2>@ViewData["Title"]</h2>
-            <p>Conteúdos para seu bem-estar e produtividade.</p>
+<div class="container py-5">
+
+    <div class="row mb-5 align-items-end">
+        <div class="col-md-8">
+            <h1 class="display-5 fw-bold text-dark mb-2">@ViewData["Title"]</h1>
+            <p class="text-muted lead mb-0">Conteúdos para seu bem-estar e produtividade.</p>
         </div>
-        <div class="col-md-6 text-md-end">
+        <div class="col-md-4 text-md-end mt-4 mt-md-0">
             @if (isAdmin) {
-                <a asp-action="Create" class="btn btn-primary">
-                    <i class="bi bi-plus-circle"></i> Novo Conteúdo
+                <a asp-action="Create" class="btn btn-primary btn-lg rounded-pill px-4 shadow-primary-sm fw-bold hover-scale">
+                    <i class="bi bi-plus-lg me-2"></i>Novo Conteúdo
                 </a>
             }
         </div>
     </div>
 
-    <div class="card card-body mb-4">
-        <form asp-action="Index" method="get">
-            <div class="row g-3">
-                <div class="col-md-4">
-                    <label class="form-label">Buscar por Título</label>
-                    <input type="text" class="form-control" name="searchString" value="@ViewBag.SearchString">
+    <div class="card border-0 shadow-sm rounded-4 mb-5 bg-white overflow-hidden">
+        <div class="card-body p-4">
+            <h6 class="text-uppercase text-muted fw-bold mb-3 small ls-1"><i class="bi bi-sliders me-2"></i>Filtrar</h6>
+            <form asp-action="Index" method="get">
+                <div class="row g-3">
+                    <div class="col-lg-5">
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-0 ps-3 text-secondary"><i class="bi bi-search"></i></span>
+                            <input type="text" class="form-control bg-light border-0 py-2 text-dark" name="searchString" value="@ViewBag.SearchString" placeholder="Buscar por título...">
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <select name="categoryId" class="form-select bg-light border-0 py-2 text-secondary" asp-items="ViewBag.Categories">
+                            <option value="">Todas as Categorias</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 col-lg-2">
+                        <select name="difficulty" class="form-select bg-light border-0 py-2 text-secondary" asp-items="Html.GetEnumSelectList<DifficultyLevel>()">
+                            <option value="">Dificuldade</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-2">
+                        <button type="submit" class="btn btn-primary w-100 rounded-pill py-2 fw-bold shadow-sm transition-btn">
+                            Filtrar
+                        </button>
+                    </div>
                 </div>
-                <div class="col-md-3">
-                    <label class="form-label">Categoria</label>
-                    <select name="categoryId" class="form-select" asp-items="ViewBag.Categories">
-                        <option value="">Todas</option>
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <label class="form-label">Dificuldade</label>
-                    <select name="difficulty" class="form-select" asp-items="Html.GetEnumSelectList<DifficultyLevel>()">
-                        <option value="">Todas</option>
-                    </select>
-                </div>
-                <div class="col-md-2 d-flex align-items-end">
-                    <button type="submit" class="btn btn-secondary w-100">Filtrar</button>
-                </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
+
+    @if (!groupedContents.Any()) {
+        <div class="text-center py-5">
+            <h4 class="text-muted fw-normal">Nenhum conteúdo encontrado.</h4>
+        </div>
+    }
 
     @foreach (var categoryGroup in groupedContents) {
         <div class="category-section mb-5">
-            <h2 class="category-title">@categoryGroup.Key</h2>
-            <hr class="mb-4" />
+            <div class="d-flex align-items-center mb-4">
+                <div class="bg-primary rounded-pill me-3" style="width: 4px; height: 32px;"></div>
+                <h2 class="fw-bold text-dark m-0">@categoryGroup.Key</h2>
+            </div>
 
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                 @foreach (var item in categoryGroup) {
                     <div class="col">
-                        <div class="card h-100 shadow-sm">
+                        <div class="card h-100 border-0 shadow-sm rounded-4 hover-card overflow-hidden">
 
-                            @* --- LÓGICA DE PRIORIDADE DE CAPA --- *@
                             @{
                                 var youtubeEmbed = GetYouTubeEmbedLink(item.MediaUrl);
                                 bool hasCoverImage = !string.IsNullOrEmpty(item.CoverImageUrl);
                             }
 
-                            @if (hasCoverImage) {
-                                <img src="@item.CoverImageUrl" class="card-img-top" alt="@item.Title" style="height: 200px; object-fit: cover;">
-                            }
-                            else if (youtubeEmbed != null) {
-                                <div style="height: 200px; overflow: hidden; border-top-left-radius: 10px; border-top-right-radius: 10px;">
-                                    <iframe src="@youtubeEmbed" title="Video" frameborder="0" allowfullscreen style="width: 100%; height: 100%;"></iframe>
-                                </div>
-                            }
-                            else {
-                                <img src="https://via.placeholder.com/400x200.png?text=Sem+Capa" class="card-img-top" style="height: 200px; object-fit: cover;">
-                            }
+                            <div class="position-relative bg-light" style="min-height: 200px;">
+                                @if (hasCoverImage) {
+                                    <img src="@item.CoverImageUrl" class="card-img-top" alt="@item.Title" style="height: 220px; object-fit: cover;">
+                                }
+                                else if (youtubeEmbed != null) {
+                                    <div class="ratio ratio-16x9">
+                                        <iframe src="@youtubeEmbed" title="Video" allowfullscreen style="border-radius: 0;"></iframe>
+                                    </div>
+                                }
+                                else {
+                                    <div class="d-flex align-items-center justify-content-center text-muted h-100" style="height: 220px !important;">
+                                        <i class="bi bi-image fs-1 opacity-25"></i>
+                                    </div>
+                                }
 
-                            <div class="card-body">
-                                <h5 class="card-title">@Html.DisplayFor(modelItem => item.Title)</h5>
-                                <p class="card-text text-muted small">
+                                <div class="position-absolute top-0 end-0 p-3">
+                                    <span class="badge bg-white text-dark shadow-sm px-3 py-2 rounded-pill fw-normal">
+                                        @item.Difficulty
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="card-body p-4 d-flex flex-column">
+                                <h5 class="card-title fw-bold mb-3 text-dark">@item.Title</h5>
+                                <p class="card-text text-muted small flex-grow-1" style="line-height: 1.6;">
                                     @item.Summary
                                 </p>
-                            </div>
-                            <div class="card-footer bg-white border-0 p-3">
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <span class="badge bg-info text-dark">@item.Category?.Name</span>
-                                    <span class="badge bg-light text-dark">@item.Difficulty</span>
-                                </div>
-                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-primary btn-sm">Ler Artigo</a>
 
-                                @if (isAdmin) {
-                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-secondary btn-sm">Edit</a>
-                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger btn-sm">Del</a>
-                                }
+                                <div class="mt-4 pt-3 border-top border-light d-flex flex-wrap justify-content-between align-items-center gap-2">
+
+                                    <a asp-action="Details" asp-route-id="@item.Id"
+                                       class="btn btn-outline-primary btn-sm rounded-pill px-4 fw-bold">
+                                        Ler Artigo
+                                    </a>
+
+                                    @if (isAdmin) {
+                                        <div class="d-flex gap-2">
+                                            <a asp-action="Edit" asp-route-id="@item.Id"
+                                               class="btn btn-soft-primary btn-sm rounded-pill px-3 fw-bold d-flex align-items-center">
+                                                <i class="bi bi-pencil-fill me-1 small"></i> Editar
+                                            </a>
+                                            <a asp-action="Delete" asp-route-id="@item.Id"
+                                               class="btn btn-soft-danger btn-sm rounded-pill px-3 fw-bold d-flex align-items-center">
+                                                <i class="bi bi-trash-fill me-1 small"></i> Excluir
+                                            </a>
+                                        </div>
+                                    }
+                                </div>
                             </div>
                         </div>
                     </div>
