@@ -130,7 +130,7 @@ dotnet ef database update
 ```
 
 #### 4. Executando a Aplicação
-Após configurar o banco, inicie o servidor apertando F5 ou abrindo o terminal e digitando:
+Após configurar o banco, inicie o servidor apertando F5 ou abrindo o terminal e digitando (Lembre-se: Você deve estar dentro da pasta SyncMe):
 ```
 dotnet run
 ```
