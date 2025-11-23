@@ -29,22 +29,22 @@ namespace SyncMe.Data {
             // 3. Seed de Conteúdos (Atualizado com CategoryId)
             modelBuilder.Entity<Content>().HasData(
                 new Content {
-                    Id = 1,
+                    Id = 100,
                     Title = "Técnica Pomodoro",
                     Summary = "Aprenda a gerenciar seu tempo com pausas estratégicas.",
                     Difficulty = DifficultyLevel.Iniciante,
                     PublishDate = DateTime.Now,
-                    MediaUrl = "https://www.youtube.com/watch?v=123",
+                    MediaUrl = "https://www.youtube.com/watch?v=hfxfJ7Qa4sg&t=3s",
                     CategoryId = 2, // Produtividade
                     TrackId = 1     // Semana Sem Stress
                 },
                 new Content {
-                    Id = 2,
+                    Id = 101,
                     Title = "Mindfulness no Trabalho",
                     Summary = "Exercícios rápidos de respiração.",
                     Difficulty = DifficultyLevel.Iniciante,
                     PublishDate = DateTime.Now,
-                    MediaUrl = "https://www.youtube.com/watch?v=456",
+                    MediaUrl = "https://www.youtube.com/watch?v=mLOCYir6bnI",
                     CategoryId = 1, // Saúde Mental
                     TrackId = 1     // Semana Sem Stress
                 }

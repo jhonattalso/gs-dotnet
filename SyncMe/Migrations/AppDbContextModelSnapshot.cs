@@ -39,7 +39,7 @@ namespace SyncMe.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TB_CATEGORY");
+                    b.ToTable("TB_GS_CATEGORY");
 
                     b.HasData(
                         new
@@ -69,6 +69,7 @@ namespace SyncMe.Migrations
                     OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ArticleBody")
+                        .HasMaxLength(2000)
                         .HasColumnType("NVARCHAR2(2000)")
                         .HasColumnName("DS_ARTICLE_BODY");
 
@@ -114,27 +115,27 @@ namespace SyncMe.Migrations
 
                     b.HasIndex("TrackId");
 
-                    b.ToTable("TB_CONTENT");
+                    b.ToTable("TB_GS_CONTENT");
 
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            Id = 100,
                             CategoryId = 2,
                             Difficulty = 0,
-                            MediaUrl = "https://www.youtube.com/watch?v=123",
-                            PublishDate = new DateTime(2025, 11, 18, 17, 24, 48, 730, DateTimeKind.Local).AddTicks(4724),
+                            MediaUrl = "https://www.youtube.com/watch?v=hfxfJ7Qa4sg&t=3s",
+                            PublishDate = new DateTime(2025, 11, 23, 19, 23, 3, 694, DateTimeKind.Local).AddTicks(2099),
                             Summary = "Aprenda a gerenciar seu tempo com pausas estratégicas.",
                             Title = "Técnica Pomodoro",
                             TrackId = 1
                         },
                         new
                         {
-                            Id = 2,
+                            Id = 101,
                             CategoryId = 1,
                             Difficulty = 0,
-                            MediaUrl = "https://www.youtube.com/watch?v=456",
-                            PublishDate = new DateTime(2025, 11, 18, 17, 24, 48, 730, DateTimeKind.Local).AddTicks(5016),
+                            MediaUrl = "https://www.youtube.com/watch?v=mLOCYir6bnI",
+                            PublishDate = new DateTime(2025, 11, 23, 19, 23, 3, 694, DateTimeKind.Local).AddTicks(2408),
                             Summary = "Exercícios rápidos de respiração.",
                             Title = "Mindfulness no Trabalho",
                             TrackId = 1
@@ -162,7 +163,7 @@ namespace SyncMe.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TB_TRACK");
+                    b.ToTable("TB_GS_TRACK");
 
                     b.HasData(
                         new

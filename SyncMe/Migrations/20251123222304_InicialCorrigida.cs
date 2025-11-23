@@ -8,13 +8,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SyncMe.Migrations
 {
     /// <inheritdoc />
-    public partial class MigracaoLimpaGS : Migration
+    public partial class InicialCorrigida : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "TB_CATEGORY",
+                name: "TB_GS_CATEGORY",
                 columns: table => new
                 {
                     ID_CATEGORY = table.Column<int>(type: "NUMBER(10)", nullable: false)
@@ -23,11 +23,11 @@ namespace SyncMe.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TB_CATEGORY", x => x.ID_CATEGORY);
+                    table.PrimaryKey("PK_TB_GS_CATEGORY", x => x.ID_CATEGORY);
                 });
 
             migrationBuilder.CreateTable(
-                name: "TB_TRACK",
+                name: "TB_GS_TRACK",
                 columns: table => new
                 {
                     ID_TRACK = table.Column<int>(type: "NUMBER(10)", nullable: false)
@@ -37,17 +37,19 @@ namespace SyncMe.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TB_TRACK", x => x.ID_TRACK);
+                    table.PrimaryKey("PK_TB_GS_TRACK", x => x.ID_TRACK);
                 });
 
             migrationBuilder.CreateTable(
-                name: "TB_CONTENT",
+                name: "TB_GS_CONTENT",
                 columns: table => new
                 {
                     ID_CONTENT = table.Column<int>(type: "NUMBER(10)", nullable: false)
                         .Annotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1"),
                     NM_TITLE = table.Column<string>(type: "NVARCHAR2(100)", maxLength: 100, nullable: false),
-                    DS_SUMMARY = table.Column<string>(type: "NVARCHAR2(2000)", nullable: false),
+                    DS_SUMMARY = table.Column<string>(type: "NVARCHAR2(300)", maxLength: 300, nullable: false),
+                    DS_ARTICLE_BODY = table.Column<string>(type: "NVARCHAR2(2000)", maxLength: 2000, nullable: true),
+                    DS_COVER_IMAGE_URL = table.Column<string>(type: "NVARCHAR2(2000)", nullable: true),
                     DS_MEDIA_URL = table.Column<string>(type: "NVARCHAR2(2000)", nullable: true),
                     DT_PUBLISH = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: false),
                     TP_DIFFICULTY = table.Column<int>(type: "NUMBER(10)", nullable: false),
@@ -56,22 +58,22 @@ namespace SyncMe.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TB_CONTENT", x => x.ID_CONTENT);
+                    table.PrimaryKey("PK_TB_GS_CONTENT", x => x.ID_CONTENT);
                     table.ForeignKey(
-                        name: "FK_TB_CONTENT_TB_CATEGORY_ID_CATEGORY",
+                        name: "FK_TB_GS_CONTENT_TB_GS_CATEGORY_ID_CATEGORY",
                         column: x => x.ID_CATEGORY,
-                        principalTable: "TB_CATEGORY",
+                        principalTable: "TB_GS_CATEGORY",
                         principalColumn: "ID_CATEGORY",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_TB_CONTENT_TB_TRACK_ID_TRACK",
+                        name: "FK_TB_GS_CONTENT_TB_GS_TRACK_ID_TRACK",
                         column: x => x.ID_TRACK,
-                        principalTable: "TB_TRACK",
+                        principalTable: "TB_GS_TRACK",
                         principalColumn: "ID_TRACK");
                 });
 
             migrationBuilder.InsertData(
-                table: "TB_CATEGORY",
+                table: "TB_GS_CATEGORY",
                 columns: new[] { "ID_CATEGORY", "NM_NAME" },
                 values: new object[,]
                 {
@@ -81,7 +83,7 @@ namespace SyncMe.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "TB_TRACK",
+                table: "TB_GS_TRACK",
                 columns: new[] { "ID_TRACK", "DS_DESCRIPTION", "NM_TITLE" },
                 values: new object[,]
                 {
@@ -90,22 +92,22 @@ namespace SyncMe.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "TB_CONTENT",
-                columns: new[] { "ID_CONTENT", "ID_CATEGORY", "TP_DIFFICULTY", "DS_MEDIA_URL", "DT_PUBLISH", "DS_SUMMARY", "NM_TITLE", "ID_TRACK" },
+                table: "TB_GS_CONTENT",
+                columns: new[] { "ID_CONTENT", "DS_ARTICLE_BODY", "ID_CATEGORY", "DS_COVER_IMAGE_URL", "TP_DIFFICULTY", "DS_MEDIA_URL", "DT_PUBLISH", "DS_SUMMARY", "NM_TITLE", "ID_TRACK" },
                 values: new object[,]
                 {
-                    { 1, 2, 0, "https://www.youtube.com/watch?v=123", new DateTime(2025, 11, 14, 18, 32, 45, 250, DateTimeKind.Local).AddTicks(7923), "Aprenda a gerenciar seu tempo com pausas estratégicas.", "Técnica Pomodoro", 1 },
-                    { 2, 1, 0, "https://www.youtube.com/watch?v=456", new DateTime(2025, 11, 14, 18, 32, 45, 250, DateTimeKind.Local).AddTicks(8409), "Exercícios rápidos de respiração.", "Mindfulness no Trabalho", 1 }
+                    { 100, null, 2, null, 0, "https://www.youtube.com/watch?v=hfxfJ7Qa4sg&t=3s", new DateTime(2025, 11, 23, 19, 23, 3, 694, DateTimeKind.Local).AddTicks(2099), "Aprenda a gerenciar seu tempo com pausas estratégicas.", "Técnica Pomodoro", 1 },
+                    { 101, null, 1, null, 0, "https://www.youtube.com/watch?v=mLOCYir6bnI", new DateTime(2025, 11, 23, 19, 23, 3, 694, DateTimeKind.Local).AddTicks(2408), "Exercícios rápidos de respiração.", "Mindfulness no Trabalho", 1 }
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_TB_CONTENT_ID_CATEGORY",
-                table: "TB_CONTENT",
+                name: "IX_TB_GS_CONTENT_ID_CATEGORY",
+                table: "TB_GS_CONTENT",
                 column: "ID_CATEGORY");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TB_CONTENT_ID_TRACK",
-                table: "TB_CONTENT",
+                name: "IX_TB_GS_CONTENT_ID_TRACK",
+                table: "TB_GS_CONTENT",
                 column: "ID_TRACK");
         }
 
@@ -113,13 +115,13 @@ namespace SyncMe.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "TB_CONTENT");
+                name: "TB_GS_CONTENT");
 
             migrationBuilder.DropTable(
-                name: "TB_CATEGORY");
+                name: "TB_GS_CATEGORY");
 
             migrationBuilder.DropTable(
-                name: "TB_TRACK");
+                name: "TB_GS_TRACK");
         }
     }
 }

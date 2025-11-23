@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SyncMe.Models {
-    [Table("TB_CONTENT")]
+    [Table("TB_GS_CONTENT")]
     public class Content {
         [Key]
         [Column("ID_CONTENT")]
