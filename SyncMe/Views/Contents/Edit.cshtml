@@ -41,7 +41,10 @@
                             <div class="mb-3">
                                 <label asp-for="ArticleBody" class="form-label fw-bold text-muted small text-uppercase ls-1 ms-1">Conteúdo Completo</label>
                                 <textarea asp-for="ArticleBody" class="form-control bg-white border border-2" rows="12" style="border-color: #f0f2f5 !important;"></textarea>
-                                <span asp-validation-for="ArticleBody" class="text-danger small ms-1"></span>
+                                <div class="d-flex justify-content-between mt-1">
+                                    <span asp-validation-for="Summary" class="text-danger small ms-1"></span>
+                                    <small class="text-muted bg-light px-2 rounded">Max 2000 caracteres</small>
+                                </div>
                             </div>
                         </div>
 

@@ -2,39 +2,63 @@
 @inject IHttpContextAccessor HttpContextAccessor
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - SyncMe</title>
-    <script type="importmap"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/SyncMe.styles.css" asp-append-version="true" />
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100 bg-light-subtle">
+
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Academy" asp-action="Index">SyncMe</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white shadow-sm mb-5 py-3">
+            <div class="container">
+
+                <a class="navbar-brand d-flex align-items-center fw-bold text-primary fs-4" asp-area="" asp-controller="Contents" asp-action="Index" style="letter-spacing: -0.5px;">
+                    <i class="bi bi-activity me-2 fs-3"></i>
+                    SyncMe
+                </a>
+
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav ms-auto">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark fw-medium" asp-controller="Contents" asp-action="Index">Academy</a>
+                        </li>
+                    </ul>
+
+                    <ul class="navbar-nav ms-auto align-items-center">
                         @{
                             bool isAdmin = HttpContextAccessor.HttpContext.Session.GetString("IsAdmin") == "true";
                         }
 
                         @if (isAdmin) {
                             <li class="nav-item">
-                                <a class="nav-link text-danger" asp-controller="Admin" asp-action="Logout">Sair (Admin)</a>
+                                <div class="d-flex align-items-center bg-primary bg-opacity-10 rounded-pill px-1 py-1 ps-3 border border-primary-subtle">
+                                    <span class="text-primary fw-bold small me-3 text-uppercase" style="font-size: 0.75rem; letter-spacing: 0.5px;">
+                                        <i class="bi bi-shield-lock-fill me-1"></i>Admin
+                                    </span>
+                                    <a class="btn btn-white btn-sm rounded-pill text-danger fw-bold shadow-sm" asp-controller="Admin" asp-action="Logout" title="Sair do sistema">
+                                        <i class="bi bi-box-arrow-right"></i>
+                                    </a>
+                                </div>
                             </li>
                         }
                         else {
                             <li class="nav-item">
-                                <a class="nav-link text-primary" asp-controller="Admin" asp-action="Login">Login Admins</a>
+                                <a class="btn btn-outline-primary rounded-pill px-4 fw-bold btn-sm transition-btn" asp-controller="Admin" asp-action="Login">
+                                    <i class="bi bi-person-circle me-2"></i>Área Admin
+                                </a>
                             </li>
                         }
                     </ul>
@@ -43,17 +67,19 @@
             </div>
         </nav>
     </header>
-    <div class="container">
+
+    <div class="container flex-grow-1">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - SyncMe
+    <footer class="border-top footer text-muted bg-white mt-auto py-3">
+        <div class="container text-center small">
+            &copy; 2025 - <strong>SyncMe</strong> - Bem-estar e Produtividade
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
