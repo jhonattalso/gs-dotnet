@@ -1,12 +1,10 @@
-# BalanceMe - Global Solution 2025
-
-## 📋 Visão Geral
+# BalanceMe Academy
 
 O projeto **BalanceMe Academy** é o módulo corporativo web de educação e bem-estar da solução "BalanceMe". O aplicativo mobile diagnostica o problema com os dados do usuário (ex: usuário cansado, estressado, ou trabalhando demais). E a plataforma web entra como solução. 
 
 O projeto BalanceMe Academy consiste na implementação de uma plataforma Web corporativa desenvolvida em ASP.NET Core MVC, voltada para a gestão de conteúdo de reskilling e upskilling. É um portal onde o RH da empresa disponibiliza conteúdo para ajudar os colaboradores a desenvolverem as "competências humanas", ou dicas de saúde e bem-estar.   
 
-### 👥 Integrantes do Grupo
+### Integrantes do Grupo
 * **Jhonatta Lima Sandes de Oliveira** - RM: 560277
 * **Rangel Bernadi Jordão** - RM: 560547
 * **Lucas José Lima** - RM: 561160
@@ -15,7 +13,7 @@ O projeto BalanceMe Academy consiste na implementação de uma plataforma Web co
 
 ---
 
-## 🏗️ Decisões Arquiteturais
+## Decisões Arquiteturais
 
 O projeto foi construído seguindo a arquitetura **MVC (Model-View-Controller)** utilizando **ASP.NET Core**, garantindo a separação de responsabilidades entre a interface do usuário, a lógica de negócios e o acesso a dados.
 
@@ -31,7 +29,7 @@ O projeto foi construído seguindo a arquitetura **MVC (Model-View-Controller)**
 
 ---
 
-## 🗺️ Rotas e Navegação (Endpoints)
+## Rotas e Navegação (Endpoints)
 
 A aplicação utiliza **Attribute Routing** para personalizar as URLs, tornando-as mais descritivas (ex: `/academy` em vez de `/Contents`), além de rotas padrão para a área administrativa.
 
@@ -53,12 +51,13 @@ A aplicação utiliza **Attribute Routing** para personalizar as URLs, tornando-
 > **Nota:** As rotas marcadas com acesso **Admin** verificam a sessão do usuário (`IsAdmin`) e redirecionam para a tela de login caso não esteja autenticado.
 
 
-## 📸 Exemplos de Uso (Fluxos Principais)
+## Exemplos de Uso (Fluxos Principais)
 
 ### 1. Área Pública - "Academy"
 O acesso principal é feito pela rota `/academy`. Nesta área, qualquer utilizador pode visualizar os conteúdos disponíveis.
 
-<img width="1893" height="914" alt="image" src="https://github.com/user-attachments/assets/e25ceb5a-8410-46f4-98b2-2d892b66fc48" />
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/ee7ce671-8294-4f5c-9934-6c56166e492f" />
+
 
 
 
@@ -79,8 +78,13 @@ Para adicionar, editar ou remover conteúdos, é necessário estar autenticado c
         * **User:** `Admin`
         * **Password:** `Admin123@`
     * Após o login com sucesso, a sessão `IsAdmin` é ativada e o menu superior exibe as opções de gestão.
+<img width="1913" height="1079" alt="image" src="https://github.com/user-attachments/assets/9aa05d13-2712-4288-82f7-05c740afd031" />
 
-<img width="1900" height="913" alt="image" src="https://github.com/user-attachments/assets/1e0a54ea-2266-4d3f-a6e1-9a9bf2adc409" />
+
+**Opções de Gestão:**
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/5cbeccf4-933a-45ab-966b-b7cb357c2fcc" />
+
+
 
 
 * **Criar Novo Conteúdo:**
@@ -90,19 +94,23 @@ Para adicionar, editar ou remover conteúdos, é necessário estar autenticado c
     * **Multimédia:** Insira URLs válidas para a Imagem de Capa e Vídeo do YouTube.
     * Ao salvar, o sistema valida os dados; se houver erro (ex: resumo muito longo), o formulário é recarregado com mensagens de alerta.
 
-<img width="1894" height="913" alt="image" src="https://github.com/user-attachments/assets/6e124390-1adc-436e-867a-15f4826c35fb" />
+<img width="1588" height="1079" alt="image" src="https://github.com/user-attachments/assets/ff4bf7df-315b-4824-ab56-55c9d8e88d79" />
+
 
 
 * **Edição:**
-<img width="1896" height="915" alt="image" src="https://github.com/user-attachments/assets/54d5fa53-bac6-4967-8bf0-726ff0df0f12" />
+<img width="1592" height="1079" alt="image" src="https://github.com/user-attachments/assets/84061892-b98d-4200-887c-d39f0605900a" />
+
+
 
 * **Exclusão:**
-<img width="1917" height="917" alt="image" src="https://github.com/user-attachments/assets/a3816f59-99ba-4b74-b757-2c7462dc91b9" />
+<img width="1915" height="1079" alt="image" src="https://github.com/user-attachments/assets/5fdd946d-b89b-4b02-8a89-772bb7ab24da" />
+
 
 
 ---
 
-## 🚀 Como Rodar o Projeto
+## Como Rodar o Projeto
 
 ### Pré-requisitos
 * [.NET SDK](https://dotnet.microsoft.com/download) instalado.
