@@ -11,15 +11,16 @@ namespace SyncMe.ViewModels {
         public string Title { get; set; }
 
         [Required(ErrorMessage = "O resumo é obrigatório.")]
+        [StringLength(300, ErrorMessage = "O resumo deve ter no máximo {1} caracteres.")] // <--- AQUI
         [Display(Name = "Resumo")]
         public string Summary { get; set; }
 
         [Display(Name = "Corpo do Artigo")]
-        public string? ArticleBody { get; set; } // Texto longo do blog
+        [StringLength(2000, ErrorMessage = "O conteúdo completo não pode passar de {1} caracteres.")] // <--- AQUI
+        public string? ArticleBody { get; set; }
 
         [Display(Name = "URL da Imagem de Capa")]
-        public string? CoverImageUrl { get; set; } // URL da imagem de capa
-
+        public string? CoverImageUrl { get; set; }
 
         [Display(Name = "Link da Mídia (YouTube/Imagem)")]
         public string? MediaUrl { get; set; }
@@ -27,15 +28,12 @@ namespace SyncMe.ViewModels {
         [Display(Name = "Nível de Dificuldade")]
         public DifficultyLevel Difficulty { get; set; }
 
-        // Dropdown de Categoria
         [Required(ErrorMessage = "A categoria é obrigatória.")]
         [Display(Name = "Categoria")]
         public int CategoryId { get; set; }
 
-        // Lista para preencher o <select> na View
         public SelectList? Categories { get; set; }
 
-        // Dropdown de Trilha (Opcional)
         [Display(Name = "Trilha de Aprendizado")]
         public int? TrackId { get; set; }
         public SelectList? Tracks { get; set; }

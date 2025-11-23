@@ -13,23 +13,21 @@ namespace SyncMe.Models {
         [Column("NM_TITLE")]
         public string Title { get; set; }
 
-        // Resumo curto para aparecer no Card
         [Required(ErrorMessage = "O resumo é obrigatório")]
         [StringLength(300, ErrorMessage = "O resumo deve ter no máximo 300 caracteres")]
         [Column("DS_SUMMARY")]
         public string Summary { get; set; }
 
-        // --- NOVO: Corpo do Artigo (Texto Longo / Blog) ---
-        // Sem StringLength, o banco entende que pode ser texto muito longo
+        // Adicione o limite aqui também
+        [StringLength(2000, ErrorMessage = "O conteúdo não pode exceder 2000 caracteres")]
         [Column("DS_ARTICLE_BODY")]
         public string? ArticleBody { get; set; }
 
-        // --- NOVO: Imagem de Capa Opcional ---
         [Column("DS_COVER_IMAGE_URL")]
         public string? CoverImageUrl { get; set; }
 
         [Column("DS_MEDIA_URL")]
-        public string? MediaUrl { get; set; } // Link do YouTube
+        public string? MediaUrl { get; set; }
 
         [Required]
         [Column("DT_PUBLISH")]
@@ -37,8 +35,6 @@ namespace SyncMe.Models {
 
         [Column("TP_DIFFICULTY")]
         public DifficultyLevel Difficulty { get; set; }
-
-        // --- RELACIONAMENTOS ---
 
         [Required(ErrorMessage = "Selecione uma categoria")]
         [Column("ID_CATEGORY")]
