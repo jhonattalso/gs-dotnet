@@ -1,80 +1,101 @@
 ﻿@model SyncMe.ViewModels.ContentViewModel
 
 @{
-    ViewData["Title"] = "Criar Novo Conteúdo";
+    ViewData["Title"] = "Criar Conteúdo";
 }
 
-<div class="container mt-5">
+<div class="container py-5">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card shadow-sm">
-                <div class="card-header bg-primary text-white">
-                    <h4 class="mb-0">Novo Artigo / Conteúdo</h4>
+        <div class="col-lg-9">
+
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                <div class="card-header bg-white border-0 pt-5 px-5 pb-0 text-center">
+                    <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-success bg-opacity-10 text-success mb-3" style="width: 60px; height: 60px;">
+                        <i class="bi bi-pencil-fill fs-3"></i>
+                    </div>
+                    <h2 class="fw-bold text-dark">Criar Novo Artigo</h2>
+                    <p class="text-muted small">Preencha as informações abaixo para publicar na Academy.</p>
                 </div>
-                <div class="card-body">
+
+                <div class="card-body p-5">
                     <form asp-action="Create">
-                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger rounded-3 mb-4"></div>
 
-                        <div class="mb-3">
-                            <label asp-for="Title" class="form-label">Título</label>
-                            <input asp-for="Title" class="form-control" placeholder="Ex: Como melhorar o foco..." />
-                            <span asp-validation-for="Title" class="text-danger"></span>
-                        </div>
-
-                        <div class="mb-3">
-                            <label asp-for="Summary" class="form-label">Resumo Curto (Capa do Card)</label>
-                            <textarea asp-for="Summary" class="form-control" rows="3" placeholder="Um breve resumo que aparecerá na lista..."></textarea>
-                            <span asp-validation-for="Summary" class="text-danger"></span>
-                            <small class="text-muted">Máximo de 300 caracteres.</small>
-                        </div>
-
-                        <div class="mb-3">
-                            <label asp-for="ArticleBody" class="form-label">Conteúdo Completo (Blog)</label>
-                            <textarea asp-for="ArticleBody" class="form-control" rows="10" placeholder="Escreva todo o conteúdo do artigo aqui..."></textarea>
-                            <span asp-validation-for="ArticleBody" class="text-danger"></span>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="CategoryId" class="form-label">Categoria</label>
-                                <select asp-for="CategoryId" class="form-select" asp-items="Model.Categories">
-                                    <option value="">-- Selecione --</option>
-                                </select>
-                                <span asp-validation-for="CategoryId" class="text-danger"></span>
+                        <div class="mb-4">
+                            <div class="form-floating mb-3">
+                                <input asp-for="Title" class="form-control bg-light border-0 fw-bold fs-5" placeholder="Título do Artigo" style="height: 60px;" />
+                                <label asp-for="Title" class="text-secondary">Título Principal</label>
+                                <span asp-validation-for="Title" class="text-danger small ms-1"></span>
                             </div>
 
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="Difficulty" class="form-label">Dificuldade</label>
-                                <select asp-for="Difficulty" class="form-select" asp-items="Html.GetEnumSelectList<SyncMe.Models.DifficultyLevel>()"></select>
-                                <span asp-validation-for="Difficulty" class="text-danger"></span>
+                            <div class="mb-3">
+                                <label asp-for="Summary" class="form-label fw-bold text-muted small text-uppercase ls-1 ms-1">Resumo / Capa</label>
+                                <textarea asp-for="Summary" class="form-control bg-light border-0" rows="3" placeholder="Um texto curto para atrair o leitor na página inicial..." style="resize: none;"></textarea>
+                                <div class="d-flex justify-content-between mt-1">
+                                    <span asp-validation-for="Summary" class="text-danger small ms-1"></span>
+                                    <small class="text-muted bg-light px-2 rounded">Max 300 caracteres</small>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="ArticleBody" class="form-label fw-bold text-muted small text-uppercase ls-1 ms-1">Conteúdo Completo</label>
+                                <textarea asp-for="ArticleBody" class="form-control bg-white border border-2" rows="12" placeholder="Escreva seu artigo completo aqui. Sinta-se à vontade..." style="border-color: #f0f2f5 !important;"></textarea>
+                                <span asp-validation-for="ArticleBody" class="text-danger small ms-1"></span>
                             </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label asp-for="CoverImageUrl" class="form-label">URL da Imagem de Capa (Opcional)</label>
-                            <input asp-for="CoverImageUrl" class="form-control" placeholder="https://..." />
-                            <span asp-validation-for="CoverImageUrl" class="text-danger"></span>
+                        <div class="bg-light bg-opacity-50 p-4 rounded-4 mb-4 border border-light">
+                            <h6 class="text-uppercase text-muted fw-bold small mb-3"><i class="bi bi-sliders me-2"></i>Classificação</h6>
+
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <label asp-for="CategoryId" class="form-label small text-muted ms-1">Categoria</label>
+                                    <select asp-for="CategoryId" class="form-select border-0 shadow-sm" asp-items="Model.Categories">
+                                        <option value="">Selecione...</option>
+                                    </select>
+                                    <span asp-validation-for="CategoryId" class="text-danger small"></span>
+                                </div>
+                                <div class="col-md-4">
+                                    <label asp-for="Difficulty" class="form-label small text-muted ms-1">Dificuldade</label>
+                                    <select asp-for="Difficulty" class="form-select border-0 shadow-sm" asp-items="Html.GetEnumSelectList<SyncMe.Models.DifficultyLevel>()"></select>
+                                    <span asp-validation-for="Difficulty" class="text-danger small"></span>
+                                </div>
+                                <div class="col-md-4">
+                                    <label asp-for="TrackId" class="form-label small text-muted ms-1">Trilha (Opcional)</label>
+                                    <select asp-for="TrackId" class="form-select border-0 shadow-sm" asp-items="Model.Tracks">
+                                        <option value="">Nenhuma</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label asp-for="MediaUrl" class="form-label">Link do YouTube (Opcional)</label>
-                            <input asp-for="MediaUrl" class="form-control" placeholder="https://youtube.com/..." />
-                            <span asp-validation-for="MediaUrl" class="text-danger"></span>
-                            <small class="text-muted">Se não houver imagem de capa, a miniatura do vídeo será usada.</small>
+                        <div class="mb-5">
+                            <h6 class="text-uppercase text-muted fw-bold small mb-3 ms-1"><i class="bi bi-image me-2"></i>Mídia e Capa</h6>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input asp-for="CoverImageUrl" class="form-control bg-light border-0" placeholder="https://..." />
+                                        <label asp-for="CoverImageUrl">URL da Imagem</label>
+                                    </div>
+                                    <span asp-validation-for="CoverImageUrl" class="text-danger small ms-1"></span>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input asp-for="MediaUrl" class="form-control bg-light border-0" placeholder="https://..." />
+                                        <label asp-for="MediaUrl">Link do YouTube</label>
+                                    </div>
+                                    <div class="form-text small ms-1"><i class="bi bi-info-circle me-1"></i>Usado se não houver imagem.</div>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label asp-for="TrackId" class="form-label">Trilha de Aprendizado (Opcional)</label>
-                            <select asp-for="TrackId" class="form-select" asp-items="Model.Tracks">
-                                <option value="">-- Nenhuma --</option>
-                            </select>
-                            <span asp-validation-for="TrackId" class="text-danger"></span>
+                        <div class="d-flex justify-content-end gap-3 pt-3 border-top">
+                            <a asp-action="Index" class="btn btn-light rounded-pill px-4 fw-bold text-muted hover-bg-gray">Cancelar</a>
+                            <button type="submit" class="btn btn-success btn-lg rounded-pill px-5 fw-bold shadow-sm transition-btn">
+                                <i class="bi bi-check-lg me-2"></i>Publicar Conteúdo
+                            </button>
                         </div>
 
-                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
-                            <a asp-action="Index" class="btn btn-outline-secondary me-md-2">Cancelar</a>
-                            <button type="submit" class="btn btn-success">Criar Conteúdo</button>
-                        </div>
                     </form>
                 </div>
             </div>
