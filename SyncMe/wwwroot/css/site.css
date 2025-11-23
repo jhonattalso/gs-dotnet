@@ -283,3 +283,126 @@ body {
 .shadow-primary-sm {
     box-shadow: 0 4px 15px rgba(13, 110, 253, 0.25);
 }
+
+/* --- Página de Delete (Premium) --- */
+
+/* Fundo sutil para a página inteira */
+.bg-light-subtle {
+    background-color: #f9fbfc;
+}
+
+/* Faixa vermelha no topo do card */
+.h-1 {
+    height: 6px;
+    width: 100%;
+}
+
+/* Sombra extra forte para destacar o card do fundo */
+.shadow-xl {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08), 0 5px 15px rgba(220, 53, 69, 0.05);
+}
+
+/* Container do ícone de lixeira (círculo pulsante) */
+.icon-danger-container {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: rgba(220, 53, 69, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+/* Preview do item: parece um arquivo sendo deletado */
+.content-preview-card {
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+/* Animação: Quando passa o mouse no botão "Excluir", o ícone treme */
+.btn-delete-trigger:hover ~ .icon-danger-container, /* Se houver estrutura para siblings */
+.card-danger-hover:hover .trash-icon {
+    animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+/* O botão de excluir cresce levemente */
+.btn-delete-trigger {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+    .btn-delete-trigger:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(220, 53, 69, 0.3);
+    }
+
+/* Definição da animação de tremor (Shake) */
+@keyframes shake {
+    10%, 90% {
+        transform: translate3d(-1px, 0, 0) rotate(-5deg);
+    }
+
+    20%, 80% {
+        transform: translate3d(2px, 0, 0) rotate(5deg);
+    }
+
+    30%, 50%, 70% {
+        transform: translate3d(-3px, 0, 0) rotate(-5deg);
+    }
+
+    40%, 60% {
+        transform: translate3d(3px, 0, 0) rotate(5deg);
+    }
+}
+
+/* Botão cancelar: fica mais escuro ao passar o mouse */
+.btn-cancel {
+    transition: color 0.2s;
+    opacity: 0.7;
+}
+
+    .btn-cancel:hover {
+        color: #212529 !important; /* Preto */
+        opacity: 1;
+        text-decoration: underline !important;
+    }
+
+/* Gradiente de fundo opcional (efeito suave no topo da página) */
+.bg-gradient-danger {
+    background: radial-gradient(circle at 50% 0%, rgba(220, 53, 69, 0.15) 0%, rgba(255, 255, 255, 0) 70%);
+}
+
+/* --- Estilos Extras para Delete --- */
+
+/* Sombra suave avermelhada para o botão de perigo */
+.shadow-danger-sm {
+    box-shadow: 0 4px 15px rgba(220, 53, 69, 0.35);
+}
+
+/* Efeito sutil no botão cancelar */
+.hover-bg-gray {
+    transition: background-color 0.2s;
+}
+
+    .hover-bg-gray:hover {
+        background-color: #e9ecef !important;
+        color: #212529 !important;
+    }
+
+/* Animaçãozinha sutil no ícone de alerta */
+@keyframes pulse-red {
+    0% {
+        box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.4);
+    }
+
+    70% {
+        box-shadow: 0 0 0 10px rgba(220, 53, 69, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(220, 53, 69, 0);
+    }
+}
+
+.scale-icon {
+    animation: pulse-red 2s infinite;
+}}
