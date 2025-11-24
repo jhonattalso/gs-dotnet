@@ -1,8 +1,11 @@
 # BalanceMe Academy
+> **Global Solution 2025 | FIAP**
+>
+> Advanced Business Development With .NET
 
-O projeto **BalanceMe Academy** é o módulo corporativo web de educação e bem-estar da solução "BalanceMe". O aplicativo mobile diagnostica o problema com os dados do usuário (ex: usuário cansado, estressado, ou trabalhando demais). E a plataforma web entra como solução. 
+O projeto BalanceMe Academy é o módulo corporativo web de educação e bem-estar da solução "BalanceMe". O aplicativo mobile diagnostica o problema com os dados do usuário (ex: usuário cansado, estressado, ou trabalhando demais). E a plataforma web entra como solução.
 
-O projeto BalanceMe Academy consiste na implementação de uma plataforma Web corporativa desenvolvida em ASP.NET Core MVC, voltada para a gestão de conteúdo de reskilling e upskilling. É um portal onde o RH da empresa disponibiliza conteúdo para ajudar os colaboradores a desenvolverem as "competências humanas", ou dicas de saúde e bem-estar.   
+A plataforma desenvolvida em ASP.NET Core MVC, é voltada para a gestão de conteúdo de reskilling e upskilling. É um portal onde o RH da empresa disponibiliza conteúdo para ajudar os colaboradores a desenvolverem as "competências humanas", ou dicas de saúde e bem-estar.
 
 ### Integrantes do Grupo
 * **Jhonatta Lima Sandes de Oliveira** - RM: 560277
@@ -106,7 +109,17 @@ Para adicionar, editar ou remover conteúdos, é necessário estar autenticado c
 * **Exclusão:**
 <img width="1915" height="1079" alt="image" src="https://github.com/user-attachments/assets/5fdd946d-b89b-4b02-8a89-772bb7ab24da" />
 
+---
 
+## Configurando a Conexão
+
+O projeto espera uma conexão com o Oracle. Você deve configurar a string de conexão.
+Edite o arquivo appsettings.json na raiz do projeto e substitua os valores:
+```bash
+"ConnectionStrings": {
+  "OracleConnection": "Data Source=seu_datasource_oracle;User Id=seu_usuario;Password=sua_senha;"
+}
+```
 
 ---
 
@@ -118,27 +131,20 @@ Para adicionar, editar ou remover conteúdos, é necessário estar autenticado c
 * Visual Studio 2022 ou VS Code.
 
 
-#### 1. Entrando na pasta do projeto
-Antes de executar os comandos, certifique-se de entrar na pasta da aplicação:
-```
+#### 1. Clonando e entrando na pasta do projeto
+Antes de executar os outros comandos, certifique-se de entrar na pasta da aplicação:
+```bash
+git clone https://github.com/jhonattalso/gs-dotnet.git
 cd SyncMe
 ```
-#### 2. Configuração do Banco de Dados (Connection String)
-O projeto espera uma conexão com o Oracle. Você deve configurar a string de conexão.
-Edite o arquivo appsettings.json na raiz do projeto e substitua os valores:
-```bash
-"ConnectionStrings": {
-  "OracleConnection": "Data Source=seu_datasource_oracle;User Id=seu_usuario;Password=sua_senha;"
-}
-```
 
-#### 3. Aplicando Migrations
+#### 2. Aplicando Migrations
 Para criar as tabelas no banco de dados, execute o comando abaixo na raiz do projeto (onde está o arquivo .csproj):
 ```
 dotnet ef database update
 ```
 
-#### 4. Executando a Aplicação
+#### 3. Executando a Aplicação
 Após configurar o banco, inicie o servidor apertando F5 ou abrindo o terminal e digitando (Lembre-se: Você deve estar dentro da pasta SyncMe):
 ```
 dotnet run
